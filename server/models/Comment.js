@@ -5,7 +5,7 @@ const CommentSchema = new mongoose.Schema({  //new database structure for commen
         type: String,
         required: true
     },
-    audioId:{
+    audioId:{       //song you are commenting
         type: String,
         required: true
     },

@@ -7,13 +7,13 @@ const router = express.Router();
 //create an audio
 router.post("/", verifyToken, addAudio)
 
-router.put("/:id", verifyToken, addAudio)
+router.put("/:id", verifyToken, addAudio) //modify
 
-router.delete("/:id", verifyToken, addAudio)
+router.delete("/:id", verifyToken, addAudio) //delete
 
-router.get("/find/:id", getAudio)
+router.get("/find/:id", getAudio) //fetch audio 
 
-router.put("/view/:id", addView) //increase views on video id
+router.put("/view/:id", addView) //increase views on audio id
 
 router.get("/trend", trend)
 
@@ -21,7 +21,7 @@ router.get("/random", random) //for homepage
 
 router.get("/sub",verifyToken, sub) //show audios of channels signed user subscribed to
 
-router.get("/tags", getByTag)
+router.get("/tags", getByTag) //for genres
 
 router.get("/search", search)
 

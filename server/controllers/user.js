@@ -12,7 +12,7 @@ export const update = async (req, res, next) => {
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
-          $set: req.body, //updates the db
+          $set: req.body, //updates all info in the user in db
         },
         { new: true } //return new instance of user and not test; ensure real time update
       );

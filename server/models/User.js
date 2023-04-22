@@ -22,8 +22,15 @@ const UserSchema = new mongoose.Schema({  //new database structure for users in 
         type: Number,
         default: 0
     },
-    SubscribedUsers:{ //for showing new updates from users you subscribed to
+    admin: {
+        type: Boolean,
+        default: false
+    },
+    SubscribedUsers:{ //for showing new updates from users you subscribed to, its an arr of id showing ur subscribers
         type: [String] 
+    },
+    token: { //for verifying each login session
+        type: String,
     },
 }, {timestamps:true})
 

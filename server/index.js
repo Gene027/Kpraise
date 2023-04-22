@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import userRoutes from './routes/users.js';
 import audioRoutes from './routes/audios.js';
@@ -8,7 +9,7 @@ import dotenv from 'dotenv';   //package for .env file for code privacy
 import cookieParser from "cookie-parser";
 
 const app = express();
-dotenv.config(); //for .env to be usable at ln 9
+dotenv.config(); //for process.env to be usable 
 
 const connect = () => {
     mongoose
@@ -24,6 +25,10 @@ const connect = () => {
 //middlewares
 app.use(cookieParser()); //enable use of cookies
 app.use(express.json()); //to parse post req to json rather than undefined
+
+app.use(cors({
+    origin:'*'
+}));    //grant access to all server to make query due to cors security
 
 //ROUTES
 app.use("/api/auth", authRoutes);
