@@ -16,6 +16,7 @@ const Upload = ({ setOpen }) => {
   const [audioPerc, setAudioPerc] = useState(0);
   const [inputs, setInputs] = useState({});
   const [tags, setTags] = useState([]);
+  // const [validate, setValidate] = useState(true);
 
   const router = useRouter();
 
@@ -73,15 +74,23 @@ const Upload = ({ setOpen }) => {
     img && uploadFile(img, "imgUrl");
   }, [img]);
 
+  // if(inputs.imgUrl && inputs.audioUrl) {
+  //   setValidate(prev => !prev)
+  // }
   const handleUpload = async (e) => {
     e.preventDefault();
-    const res = await axios.post(process.env.API + "/audios", {
-      ...inputs,
-      tags,
-    });
+    const res = await axios.post(
+      "http://localhost:8800/api/audios",
+      {
+        ...inputs,
+        tags,
+      },
+      { withCredentials: true }
+    );
     setOpen(false);
     if (res.status === 200) {
       console.log("uploaded successfully");
+      window.alert("Uploaded successfully")
       router.push("/");
     } else {
       console.log(res.status);
@@ -112,12 +121,21 @@ const Upload = ({ setOpen }) => {
           )}
           <input
             className="border-[1px] border-solid border-gray-400 rounded-sm p-3"
+            name="title"
             type="text"
             placeholder="Title"
             onChange={handleChange}
           />
+          <input
+            className="border-[1px] border-solid border-gray-400 rounded-sm p-3"
+            name="videoUrl"
+            type="text"
+            placeholder="Video Link"
+            onChange={handleChange}
+          />
           <textarea
             className="border-[1px] border-solid border-gray-400 rounded-sm p-3"
+            name="desc"
             placeholder="Description"
             rows={8}
             onChange={handleChange}
@@ -140,8 +158,9 @@ const Upload = ({ setOpen }) => {
             />
           )}
           <button
-            className="rounded-sm border-none py-3 px-5 font-bold cursor-pointer bg-yellow-500 text-white"
+            className="rounded-sm border-none py-3 px-5 font-bold cursor-pointer bg-yellow-500 text-white disabled:opacity-25"
             onClick={handleUpload}
+            // disabled = {validate}
           >
             Upload
           </button>

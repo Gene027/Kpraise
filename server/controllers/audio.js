@@ -70,7 +70,7 @@ export const addView = async (req, res, next) => {
 
 export const random = async (req, res, next) => {
   try {
-    const audios = await Audio.aggregate([{ $sample: { size: 20 } }]); //mongo db fn to return random samples of size 40 audios
+    const audios = await Audio.aggregate([{ $sample: { size: 10 } }]); //mongo db fn to return random samples of size 40 audios
     res.status(200).json(audios);
   } catch (err) {
     next(err);

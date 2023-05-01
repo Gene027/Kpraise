@@ -23,7 +23,6 @@ const AudioSchema = new mongoose.Schema({  //new database structure for audio in
     },
     videoUrl:{          //youtube video link
         type: String,
-        default:""
     },
     views:{        
         type: Number,

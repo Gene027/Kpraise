@@ -11,12 +11,12 @@ router.post("/signup", signup)
 router.post("/signin", signin)
 
 //SIGN OUT
-router.post("/signout",verifyToken, signout)
+router.get("/signout",verifyToken, signout)
 
 //GOOGLE AUTH
 router.post("/google",)
 
 //VERIFY SESSION
-router.get("/verify", verifyToken, verifyUser)
+router.get("/", verifyToken, verifyUser)
 
 export default router;

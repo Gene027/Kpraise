@@ -27,7 +27,8 @@ app.use(cookieParser()); //enable use of cookies
 app.use(express.json()); //to parse post req to json rather than undefined
 
 app.use(cors({
-    origin:'*'
+    credentials: true,
+    origin:'http://localhost:3000' //change if on development or production
 }));    //grant access to all server to make query due to cors security
 
 //ROUTES

@@ -53,7 +53,7 @@ const MusicPlayer = () => {
   };
 
   return (
-    <div className="relative sm:px-12 px-8 w-full flex items-center justify-between">
+    <div className="relative sm:px-12 py-3 h-full rounded-3xl mt-5 shadow-2xl flex items-center justify-center">
       <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
       <div className="flex-1 flex flex-col items-center justify-center">
         <Controls

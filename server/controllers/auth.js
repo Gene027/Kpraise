@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import User from '../models/User.js';
 import bcrypt from "bcryptjs";  //crate to encrpyt new password
 import { createError } from '../error.js';
@@ -30,19 +29,19 @@ export const signin = async (req, res, next) => {
 
         if (!isCorrect) return next(createError(400, "Wrong Password!"));
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT, {expiresIn: "2h"});  //token for a signed in user    encryption will be made based on the payload and .env.JWT and dencrypt (jwt.verify()) will return {id: user._id}
+        const newToken = jwt.sign({ id: user._id }, process.env.JWT, {expiresIn: "2h"});  //token for a signed in user    encryption will be made based on the payload and .env.JWT and dencrypt (jwt.verify()) will return {id: user._id}
         try {
-            await User.findByIdAndUpdate(user._id, { token: token });
+            await User.findByIdAndUpdate(user._id, { token: newToken });
         } catch (err) {
             next(err);
         }
 
-        const { password,takeToken, ...others } = user._doc; //destructure user data and reassign password to a separate variable to avoid sending password as part of response
+        const { password,token, ...others } = user._doc; //destructure user data and reassign password to a separate variable to avoid sending password as part of response
 
         res
-            .cookie("access_token", token, {
+            .cookie("access_token", newToken, {
                 maxAge: 1000 * 60 * 120,
-                httpOnly: true,
+                // httpOnly: true,
             }) // cookie name access_token, cookie = token; cookie stores on http only support not apps for security    1000*60 = 1 minute   maxAge here is 2hrs
             .status(200)
             .json(others); //sends info of user and subscribers as res except password
@@ -68,7 +67,8 @@ export const signout = async (req, res, next) => {
 export const verifyUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id);
-        res.status(200).json(user);
+        const { password,token, ...others } = user._doc; //destructure user data and reassign password to a separate variable to avoid sending password as part of response
+        res.status(200).json(others);
     } catch (err) {
         next(err);
     }
