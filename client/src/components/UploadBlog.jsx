@@ -10,25 +10,20 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { RiCloseLine } from "react-icons/ri";
 
-const Upload = ({ setOpen }) => {
+const UploadBlog = ({ setOpen, blog }) => {
   const [img, setImg] = useState(undefined);
-  const [audio, setAudio] = useState(undefined);
+  const [video, setVideo] = useState(undefined);
   const [imgPerc, setImgPerc] = useState(0);
-  const [audioPerc, setAudioPerc] = useState(0);
+  const [videoPerc, setVideoPerc] = useState(0);
   const [inputs, setInputs] = useState({});
-  const [tags, setTags] = useState([]);
   const [validate, setValidate] = useState(false);
-
+  
   const router = useRouter();
 
   const handleChange = (e) => {
     setInputs((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
-  };
-
-  const handleTags = (e) => {
-    setTags(e.target.value.split(","));
   };
 
   const uploadFile = (file, urlType) => {
@@ -44,7 +39,7 @@ const Upload = ({ setOpen }) => {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         urlType === "imgUrl"
           ? setImgPerc(Math.round(progress))
-          : setAudioPerc(Math.round(progress));
+          : setVideoPerc(Math.round(progress));
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -56,7 +51,9 @@ const Upload = ({ setOpen }) => {
             break;
         }
       },
-      (error) => {},
+      (error) => {
+        console.log("Problem Uploading File", error);
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setInputs((prev) => {
@@ -68,34 +65,32 @@ const Upload = ({ setOpen }) => {
   };
 
   useEffect(() => {
-    audio && uploadFile(audio, "audioUrl");
-  }, [audio]);
+    video && uploadFile(video, "videoUrl");
+  }, [video]);
 
   useEffect(() => {
     img && uploadFile(img, "imgUrl");
   }, [img]);
 
   useEffect(() => {
-    if (imgPerc == 100 && audioPerc == 100) {
+    if (imgPerc == 100) {
       setValidate(true);
     }
   }, [imgPerc]);
 
   const handleUpload = async (e) => {
     e.preventDefault();
+    console.log({inputs});
     const res = await axios.post(
-      `${process.env.API}/audios`,
-      {
-        ...inputs,
-        tags,
-      },
+      `${process.env.API}/blog`,
+      inputs,
       { withCredentials: true }
     );
     setOpen(false);
     if (res.status === 200) {
       console.log("uploaded successfully");
       window.alert("Uploaded successfully");
-      router.push("/");
+      router.push("/blog");
     } else {
       console.log(res.status);
     }
@@ -113,20 +108,20 @@ const Upload = ({ setOpen }) => {
               <RiCloseLine className="w-8 h-8 text-black2 hover:text-red-600" />
             </div>
             <h1 className="text-center font-medium text-xl uppercase text-gray-700">
-              Upload Song
+              Post Blog
             </h1>
             <form onSubmit={handleUpload}>
-              <div>
-                <h3 className="mb-2">Song *</h3>
-                {audioPerc > 0 ? (
-                  `Uploading: ${audioPerc}%`
+            <div>
+                <h3 className="mb-2">Cover Art *</h3>
+                {imgPerc > 0 ? (
+                  `Uploading: ${imgPerc}%`
                 ) : (
                   <input
-                    className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full text-gray-600"
+                    className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full text-gray-600 placeholder:text-gray-500"
                     type="file"
-                    accept="audio/*"
+                    accept="image/*"
                     required
-                    onChange={(e) => setAudio(e.target.files[0])}
+                    onChange={(e) => setImg(e.target.files[0])}
                   />
                 )}
               </div>
@@ -142,12 +137,13 @@ const Upload = ({ setOpen }) => {
                 />
               </div>
               <div>
-                <h3 className="mb-2">Video Link *</h3>
+                <h3 className="mb-2">Category *</h3>
                 <input
                   className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full text-gray-600 placeholder:text-gray-500"
-                  name="videoUrl"
+                  name="category"
                   type="text"
-                  placeholder="Youtube link eg: https://www.youtube.com/watch?v=uRBrrdaK4dQ"
+                  required
+                  placeholder="News or Concert or Release"
                   onChange={handleChange}
                 />
               </div>
@@ -156,32 +152,33 @@ const Upload = ({ setOpen }) => {
                 <textarea
                   className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full text-gray-600 placeholder:text-gray-500"
                   name="desc"
-                  placeholder="Eg: K Praise ft Chris Morgan in this powerful worship song"
+                  placeholder="About three sentences"
                   rows={4}
                   onChange={handleChange}
                 ></textarea>
               </div>
               <div>
-                <h3 className="mb-2">Tags *</h3>
-                <input
+                <h3 className="mb-2">Body *</h3>
+                <textarea
                   className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full text-gray-600 placeholder:text-gray-500"
-                  type="text"
-                  placeholder="Separate with comma Eg: praise,rock,chris,morgan,liberia"
+                  name="content"
+                  placeholder="Full long story"
+                  rows={8}
                   required
-                  onChange={handleTags}
-                />
+                  onChange={handleChange}
+                ></textarea>
               </div>
+              
               <div>
-                <h3 className="mb-2">Cover Art *</h3>
-                {imgPerc > 0 ? (
-                  `Uploading: ${imgPerc}%`
+                <h3 className="mb-2">Video &lt;optional&gt;</h3>
+                {videoPerc > 0 ? (
+                  `Uploading: ${videoPerc}%`
                 ) : (
                   <input
-                    className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full text-gray-600 placeholder:text-gray-500"
+                    className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full text-gray-600"
                     type="file"
-                    accept="image/*"
-                    required
-                    onChange={(e) => setImg(e.target.files[0])}
+                    accept="video/*"
+                    onChange={(e) => setVideo(e.target.files[0])}
                   />
                 )}
               </div>
@@ -202,4 +199,4 @@ const Upload = ({ setOpen }) => {
   );
 };
 
-export default Upload;
+export default UploadBlog;

@@ -7,6 +7,9 @@ import Error from './Error';
 import Upload from "./Upload";
 import Footer from './Footer';
 import Card from './Card';
+import BlogCard from './BlogCard';
+import UploadBlog from './UploadBlog';
+import FeaturedBlog from './FeaturedBlog';
 
 export {
   Searchbar,
@@ -17,5 +20,8 @@ export {
   Error,
   Upload,
   Footer,
-  Card
+  Card,
+  BlogCard,
+  UploadBlog,
+  FeaturedBlog
 };

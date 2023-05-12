@@ -1,22 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { nextSong, prevSong, playPause } from '../../redux/features/playerSlice';
-import Controls from './Controls';
-import Player from './Player';
-import Seekbar from './Seekbar';
-import Track from './Track';
-import VolumeBar from './VolumeBar';
+import {
+  nextSong,
+  prevSong,
+  playPause,
+} from "../../redux/features/playerSlice";
+import Controls from "./Controls";
+import Player from "./Player";
+import Seekbar from "./Seekbar";
+import Track from "./Track";
+import VolumeBar from "./VolumeBar";
+import axios from "axios";
 
 const MusicPlayer = () => {
-  const { activeSong, currentSongs, currentIndex, isActive, isPlaying } = useSelector((state) => state.player);
+  const { activeSong, currentSongs, currentIndex, isActive, isPlaying } =
+    useSelector((state) => state.player);
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
-  const [volume, setVolume] = useState(0.3);
+  const [volume, setVolume] = useState(0.5);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (activeSong) {
+      //update views
+      axios
+        .put(`${process.env.API}/audios/view/${activeSong._id}`)
+        .then((res) => console.log(res.data))
+        .catch((error) => console.log(error));
+    }
+  }, [activeSong]);
 
   useEffect(() => {
     if (currentSongs.length) dispatch(playPause(true));
@@ -53,8 +69,12 @@ const MusicPlayer = () => {
   };
 
   return (
-    <div className="relative sm:px-12 py-3 h-full rounded-3xl mt-5 shadow-2xl flex items-center justify-center">
-      <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
+    <div className="relative py-3 w-full px-5  mt-5 shadow-2xl backdrop-blur-xl bg-white/40 flex items-center justify-center">
+      <Track
+        isPlaying={isPlaying}
+        isActive={isActive}
+        activeSong={activeSong}
+      />
       <div className="flex-1 flex flex-col items-center justify-center">
         <Controls
           isPlaying={isPlaying}
@@ -88,7 +108,13 @@ const MusicPlayer = () => {
           onLoadedData={(event) => setDuration(event.target.duration)}
         />
       </div>
-      <VolumeBar value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
+      <VolumeBar
+        value={volume}
+        min="0"
+        max="1"
+        onChange={(event) => setVolume(event.target.value)}
+        setVolume={setVolume}
+      />
     </div>
   );
 };

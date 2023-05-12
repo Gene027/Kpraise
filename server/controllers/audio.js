@@ -57,6 +57,15 @@ export const getAudio = async (req, res, next) => {
   }
 };
 
+export const getChannelAudios = async (req, res, next) => {
+  try {
+    const audio = await Audio.find({userId: req.params.id});
+    res.status(200).json(audio);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const addView = async (req, res, next) => {
   try {
     await Audio.findByIdAndUpdate(req.params.id, {
@@ -79,7 +88,7 @@ export const random = async (req, res, next) => {
 
 export const trend = async (req, res, next) => {
   try {
-    const audios = await Audio.find().sort({ views: -1 }); // nb: +1 returns least viewed video, mongo db fn
+    const audios = await Audio.find().sort({ views: -1 }); // nb: +1 returns least viewed audio, mongo db fn
     res.status(200).json(audios);
   } catch (err) {
     next(err);
@@ -89,7 +98,7 @@ export const trend = async (req, res, next) => {
 export const sub = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id); //find user so we can get his subscribedChannels array listing; request.user.id comes from jwt signed token
-    const subscribedChannels = user.subscribedUsers;
+    const subscribedChannels = user.SubscribedUsers;
 
     const list = await Promise.all(
       subscribedChannels.map(async (channelId) => {   //iterates over all your Subscription to find audios

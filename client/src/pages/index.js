@@ -1,17 +1,16 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Card, Loader, Error } from "@/components";
 import { useGetRandomSongsQuery } from "@/redux/services/api";
 
 const Home = () => {
-  const dispatch = useDispatch();
   const { activeSong, isPlaying } = useSelector((state) => state.player);
   const { data, isFetching, error } = useGetRandomSongsQuery(); // it returns res, isFetching, error
 
   return (
     <>
-      <div className="bg-[url('/hero.jpg')] bg-cover bg-center bg-no-repeat h-[70vh] w-full">
-        <div className="h-full w-full bg-black/70 flex items-center">
+      <div className="bg-[url('/hero.jpg')] bg-cover bg-center bg-repeat-x h-[70vh] w-full">
+        <div className="h-full w-full bg-black/80 flex items-center">
             <div className=" md:ml-28 ml-10 text-white flex flex-col gap-5 max-w-[70%] md:max-w-[50%]">
               <h4 className="uppercase font-medium text-base tracking-[3px]">
                 Classical Recording
@@ -24,6 +23,7 @@ const Home = () => {
                 Get Started
               </button>
             </div>
+
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 
 //hide apikey in .env
 const firebaseConfig = {
-  apiKey: "AIzaSyBrJYJct0mJZr2C5GZHmL6NGRzovqhu418",
+  apiKey: process.env.FIREBASE_API,
   authDomain: "kpraise.firebaseapp.com",
   projectId: "kpraise",
   storageBucket: "kpraise.appspot.com",

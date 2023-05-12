@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";  //crate to encrpyt new password
 import { createError } from '../error.js';
 import jwt from "jsonwebtoken";
 
-export const signup = async (req, res) => {
+export const signup = async (req, res,next) => {
     try {
         //hash the password
         const salt = bcrypt.genSaltSync(10);

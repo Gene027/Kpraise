@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Error = () => (
-  <div className="w-full flex justify-center items-center">
-    <h1 className="font-bold text-2xl">Oops,something went wrong. Please try again</h1>
+const Error = ({message}) => (
+  <div className="w-full flex justify-center items-center mt-10">
+    <h1 className="font-bold text-2xl">{message? message: "Oops,something went wrong. Please try again"}</h1>
   </div>
 );
 

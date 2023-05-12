@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import userRoutes from './routes/users.js';
+import blogRoutes from './routes/blog.js';
 import audioRoutes from './routes/audios.js';
 import commentRoutes from './routes/comments.js';
 import authRoutes from './routes/auth.js';
@@ -36,6 +37,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/audios", audioRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/blog", blogRoutes);
 
 //Error handling
 app.use((err, req, res, next) => {

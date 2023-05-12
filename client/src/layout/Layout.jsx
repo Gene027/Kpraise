@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
       <main className="pb-10">
         {children}
         {activeSong?.title && (
-          <div className="animate-slideup rounded-t-3xl z-10 flex justify-center">
+          <div className="sticky bottom-0 left-0 animate-slideup z-10 flex justify-center w-full">
             <MusicPlayer />
           </div>
         )}
