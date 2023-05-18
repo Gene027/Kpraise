@@ -6,7 +6,7 @@ import {
   loginStart,
   loginFailure,
 } from "../redux/userSlice";
-import { Upload } from "@/components";
+import { Upload, Searchbar } from "@/components";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
@@ -24,9 +24,9 @@ const Navbar = () => {
   useEffect(() => {
     const update = async () => {
       const res = await axios
-        .get("http://localhost:8800/api/auth", { withCredentials: true })
-        .catch(() => {
-          console.log("Continuing as Guest");
+        .get(process.env.API + "/auth", { withCredentials: true })
+        .catch(error => {
+          console.log(error?.response?.data?.message)
         });
 
       if (res?.status === 200) {
@@ -56,7 +56,7 @@ const Navbar = () => {
   return (
     <>
       {open && <Upload setOpen={setOpen} />}
-      <div className="flex justify-between bg-black3 items-center shadow-3xl drop-shadow-3xl border border-solid border-black sticky top-0 left-0 w-full z-40">
+      <div className="flex gap-4 justify-between bg-black3 items-center shadow-3xl drop-shadow-3xl border border-solid border-black sticky top-0 left-0 w-full z-40">
         <div>
           <img
             className="object-fill md:h-20 md:w-28 h-16 w-20 cursor-pointer"
@@ -65,7 +65,9 @@ const Navbar = () => {
             onClick={() => router.push("/")}
           />
         </div>
-        {/* Mobile Devices */}
+
+          <Searchbar />
+        {/* Mobile Devices navlinks */}
         <div className="mr-5 flex gap-5">
           {mobileMenuOpen && (
             <div className="absolute top-0 right-0 w-full h-[100vh] flex z-40">

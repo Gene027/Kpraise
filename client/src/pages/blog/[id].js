@@ -31,12 +31,14 @@ const BlogDetails = () => {
 
   return (
     <>
-      <div>
-        <div>
-          <h1>{blog?.title}</h1>
-        </div>
-        <div>
-          <h3>{blog?.category}</h3>
+      <div className="flex flex-col items-center px-5 mt-10">
+        <div className="flex flex-col gap-3 items-center pb-5">
+          <h1 className="font-semibold text-2xl lg:text-4xl text-center">
+            {blog?.title}
+          </h1>
+          <h3 className="font-medium text-purple-900 text-lg uppercase">
+            {blog?.category}
+          </h3>
         </div>
 
         {blog?.videoUrl ? (
@@ -45,11 +47,17 @@ const BlogDetails = () => {
           </div>
         ) : (
           <div>
-            <img src={blog?.imgUrl} alt="Blog Cover art" />
+            <img
+              src={blog?.imgUrl}
+              alt="Blog Cover art"
+              className="aspect-square max-w-md"
+            />
           </div>
         )}
-        <div className="flex gap-2">
-          <p className="mt-3 font-medium">{format(blog?.createdAt)}</p>
+
+        <div className="flex items-center justify-between lg:justify-center gap-10 mt-5 w-full">
+          <p className="font-medium">Posted: {format(blog?.createdAt)}</p>
+
           <div className="flex gap-2 items-center">
             Share:
             <FacebookShareButton
@@ -75,7 +83,10 @@ const BlogDetails = () => {
             </TwitterShareButton>
           </div>
         </div>
-        <div>{blog?.content}</div>
+
+        <div className="px-5 lg:px-40 mt-5">
+          <p className="text-justify">{blog?.content}</p>
+        </div>
       </div>
     </>
   );

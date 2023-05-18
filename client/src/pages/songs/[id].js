@@ -83,8 +83,8 @@ const SongDetails = () => {
         <Error message={"Error loading Artist... Try again"} />
       )}
       {artistFetchSuccess && artistSongFetchSuccess && (
-        <div className="flex gap-10 flex-col lg:flex-row items-center lg:items-start lg:justify-between">
-          <div className="max-w-md md:max-w-2xl lg:max-w-lg">
+        <div className="flex gap-10 flex-col lg:flex-row items-center lg:items-start lg:justify-between lg:px-5">
+          <div className="max-w-md md:max-w-2xl lg:max-w-lg mt-3">
             <div className="flex flex-col relative group p-3 cursor-pointer">
               <img
                 src={currentSong?.imgUrl}
@@ -115,9 +115,9 @@ const SongDetails = () => {
               <div className="flex gap-3 items-center mt-4">
                 <div>
                   {artist?.img ? (
-                    <img src={artist.img} alt="Artist Image"></img>
+                    <img src={artist.img} alt="Artist Image" className="bg-gray-200 rounded-full w-10 h-10"/>
                   ) : (
-                    <div className="bg-gray-700 rounded-full w-8 h-8"></div>
+                    <img src="/mr-kpraise.jpg" alt="Artist Image" className="bg-gray-500 rounded-full w-10 h-10"/>
                   )}
                 </div>
                 <h3 className="text-base font-normal">{artist?.name}</h3>
@@ -174,7 +174,8 @@ const SongDetails = () => {
             </div>
           </div>
 
-        <div className="flex-1 lg:flex-1 w-full max-w-2xl px-3 pt-5">
+        {/* Related Songs */}
+        <div className="flex-1 lg:flex-1 w-full max-w-2xl px-3 pt-5 overflow-y-scroll">
             {isFetchingArtistSongs && <Loader />}
             {artistSongFetchError && (
               <Error message={"Oops... Error loading artist songs"} />

@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
      //bottom padding @ main equals footer height
     <div className="relative min-h-screen">
       <Navbar />
-      <main className="pb-10">
+      <main className="pb-24">
         {children}
         {activeSong?.title && (
           <div className="sticky bottom-0 left-0 animate-slideup z-10 flex justify-center w-full">

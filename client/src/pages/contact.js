@@ -47,14 +47,14 @@ const contact = () => {
           </div>
 
           <div className="bg-purple-900 flex gap-5 p-5 mt-10 text-slate-200">
-            <div className="flex flex-col gap-3">
+            <div className="w-1/2 flex flex-col gap-3">
               <h3 className="text-center">Working Hours</h3>
               <hr />
               <h2 className="font-bold text-xl">Monday To Friday</h2>
               <h2 className="font-bold text-xl">9:00 AM to 8:00 PM</h2>
               <p>House 5, 41 Road Festac Town, Lagos, Nigeria</p>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="w-1/2 flex flex-col gap-3">
               <h3 className="text-center">Contact Us</h3>
               <hr />
               <div className="font-bold text-xl">Social:</div>

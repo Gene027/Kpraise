@@ -59,7 +59,7 @@ export const getAudio = async (req, res, next) => {
 
 export const getChannelAudios = async (req, res, next) => {
   try {
-    const audio = await Audio.find({userId: req.params.id});
+    const audio = await Audio.find({ userId: req.params.id });
     res.status(200).json(audio);
   } catch (err) {
     next(err);
@@ -79,7 +79,7 @@ export const addView = async (req, res, next) => {
 
 export const random = async (req, res, next) => {
   try {
-    const audios = await Audio.aggregate([{ $sample: { size: 10 } }]); //mongo db fn to return random samples of size 40 audios
+    const audios = await Audio.aggregate([{ $sample: { size: 10 } }]); //mongo db fn to return random samples of size 10 audios
     res.status(200).json(audios);
   } catch (err) {
     next(err);
@@ -89,6 +89,15 @@ export const random = async (req, res, next) => {
 export const trend = async (req, res, next) => {
   try {
     const audios = await Audio.find().sort({ views: -1 }); // nb: +1 returns least viewed audio, mongo db fn
+    res.status(200).json(audios);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const latest = async (req, res, next) => {
+  try {
+    const audios = await Audio.find().sort({ createdAt: -1 }).limit(10); // nb: +1 returns least viewed audio, mongo db fn
     res.status(200).json(audios);
   } catch (err) {
     next(err);
@@ -123,11 +132,15 @@ export const getByTag = async (req, res, next) => {
 };
 
 export const search = async (req, res, next) => {
-  const query = req.query.q; //search?q=joy  
+  const { q } = req.query; //search?q=joy 
+  const query = {
+    $or: [
+      { title: { $regex: q, $options: "i" } },
+      { tags: { $regex: q, $options: "i" } }
+    ]
+  }
   try {
-    const audios = await Audio.find({
-      title: { $regex: query, $options: "i" },
-    }).limit(40); //regex to query in words not chars;  options: "i" ignores uppercase strict mode
+    const audios = await Audio.find(query).limit(20); //regex to query in words not chars;  options: "i" ignores uppercase strict mode
     res.status(200).json(audios);
   } catch (err) {
     next(err);

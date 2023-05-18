@@ -1,5 +1,5 @@
 import express from "express";
-import { addAudio, addView, getByTag, getAudio, random, search, sub, trend, getChannelAudios } from "../controllers/audio.js";
+import { addAudio, addView, getByTag, getAudio, random, search, sub, trend, latest, getChannelAudios } from "../controllers/audio.js";
 import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
@@ -18,6 +18,8 @@ router.get("/artist/:id", getChannelAudios) //fetch channel audio
 router.put("/view/:id", addView) //increase views on audio id
 
 router.get("/trend", trend)
+
+router.get("/latest", latest)
 
 router.get("/random", random) //for homepage
 

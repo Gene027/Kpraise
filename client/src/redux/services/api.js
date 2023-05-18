@@ -20,6 +20,8 @@ export const api = createApi({
         getArtistSongs: builder.query({
             query: (artistid) => `audios/artist/${artistid}`
         }),
+        getLatestSongs: builder.query({ query: () => "/audios/latest" }),
+        getTrendingSongs: builder.query({ query: () => "/audios/trend" }),
     })
 });
 
@@ -29,5 +31,7 @@ export const {
     useGetSongByIdQuery,
     useGetArtistByIdQuery,
     useGetArtistSongsQuery,
+    useGetLatestSongsQuery,
+    useGetTrendingSongsQuery,
 
 } = api;

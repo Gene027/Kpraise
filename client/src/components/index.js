@@ -10,6 +10,9 @@ import Card from './Card';
 import BlogCard from './BlogCard';
 import UploadBlog from './UploadBlog';
 import FeaturedBlog from './FeaturedBlog';
+import ServicesCard from './ServicesCard';
+import ChooseUs from './ChooseUs';
+import Review from './Review';
 
 export {
   Searchbar,
@@ -23,5 +26,8 @@ export {
   Card,
   BlogCard,
   UploadBlog,
-  FeaturedBlog
+  FeaturedBlog,
+  ServicesCard,
+  ChooseUs,
+  Review
 };
