@@ -49,7 +49,7 @@ export const chooseUs = [
   },
   {
     icon: "/economic.png",
-    title: "Afforable",
+    title: "Affordable",
     desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque nesciunt deserunt, odit hic consectetur laborum harum sit dolorem expedita ut est alias,"
   },
   {

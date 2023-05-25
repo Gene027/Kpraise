@@ -17,7 +17,7 @@ const Searchbar = () => {
     <form
       onSubmit={handleSubmit}
       autoComplete="off"
-      className="p-[6px] text-gray-400 focus-within:text-gray-600 flex flex-1 max-w-2xl items-center border border-gray-500 rounded-3xl"
+      className="p-[6px] text-gray-400 focus-within:text-gray-600 flex flex-1 items-center border border-gray-500 rounded-3xl"
     >
       <label htmlFor="search-field" className="sr-only">
         Search all files
@@ -31,9 +31,11 @@ const Searchbar = () => {
           placeholder="Search"
           type="search"
           value={searchTerm}
+          required
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <FiSearch aria-hidden="true" className="w-5 h-5" />
+        <FiSearch aria-hidden="true"
+        onClick={handleSubmit} className="w-5 h-5 cursor-pointer" />
       </div>
     </form>
   );

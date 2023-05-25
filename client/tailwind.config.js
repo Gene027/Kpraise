@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'vibes': ['Merienda', 'sans-serif'],
+      },
       colors: {
         black1: '#191624',
         black2: '#222222',

@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  loginSuccess,
-  logout,
-  loginStart,
-  loginFailure,
-} from "../redux/userSlice";
+import { loginSuccess, logout } from "../redux/userSlice";
 import { Upload, Searchbar } from "@/components";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
 import { HiOutlineMenu } from "react-icons/hi";
-import { RiCloseLine } from "react-icons/ri";
+import { RiCloseLine, RiUpload2Line } from "react-icons/ri";
+import { Toaster, toast } from "react-hot-toast";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [open, setOpen] = useState(false); //for upload button trigger
+  const [uploadOpen, setUploadOpen] = useState(false); //for upload button trigger
   const [mobileMenuOpen, setmobileMenuOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
 
@@ -25,8 +21,8 @@ const Navbar = () => {
     const update = async () => {
       const res = await axios
         .get(process.env.API + "/auth", { withCredentials: true })
-        .catch(error => {
-          console.log(error?.response?.data?.message)
+        .catch((error) => {
+          console.log(error?.response?.data?.message);
         });
 
       if (res?.status === 200) {
@@ -39,24 +35,27 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async (e) => {
-    dispatch(loginStart());
+    setmobileMenuOpen(false);
     try {
-      const res = await axios.get("http://localhost:8800/api/auth/signout", {
+      const res = await axios.get(process.env.API + "/auth/signout", {
         withCredentials: true,
       }); //withCredentials = true to allow data access control for cookies
-      dispatch(logout());
+      dispatch(logout()); //set currentUser to null in redux
       console.log(res.data);
-      router.push("/");
+      toast.success("Logout successful");
+      window.location.reload();
     } catch (err) {
-      dispatch(loginFailure()); //you can pass in err to this dispatch fn and accept as action in userSlice.js
-      alert("logoutFailure");
+      toast.error("Oops, error signin out, please try again!");
     }
   };
 
   return (
     <>
-      {open && <Upload setOpen={setOpen} />}
-      <div className="flex gap-4 justify-between bg-black3 items-center shadow-3xl drop-shadow-3xl border border-solid border-black sticky top-0 left-0 w-full z-40">
+      <div>
+        <Toaster position="top-center" />
+      </div>
+      {uploadOpen && <Upload setOpen={setUploadOpen} />}
+      <div className="flex gap-2 justify-between bg-black3 items-center shadow-3xl drop-shadow-3xl border border-solid border-black sticky top-0 left-0 w-full z-40">
         <div>
           <img
             className="object-fill md:h-20 md:w-28 h-16 w-20 cursor-pointer"
@@ -66,7 +65,8 @@ const Navbar = () => {
           />
         </div>
 
-          <Searchbar />
+        <Searchbar />
+
         {/* Mobile Devices navlinks */}
         <div className="mr-5 flex gap-5">
           {mobileMenuOpen && (
@@ -116,6 +116,14 @@ const Navbar = () => {
                 >
                   Blog
                 </div>
+                {currentUser && (
+                  <div
+                    className="hover:text-gray-900 cursor-pointer p-3 border-solid border-b border-gray-300"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </div>
+                )}
               </div>
               <div
                 className="bg-black/50 relative p-5 flex-1"
@@ -129,7 +137,8 @@ const Navbar = () => {
             </div>
           )}
 
-          <div className="hidden md:flex items-center gap-5 text-white">
+          {/* Desktop navlinks */}
+          <div className="hidden md:flex items-center gap-5 text-white ml-5">
             <Link
               href="/services"
               className={`hover:text-yellow-500 cursor-pointer ${
@@ -163,44 +172,38 @@ const Navbar = () => {
               Blog
             </Link>
           </div>
-          <div>
-            {currentUser ? (
-              <div className="flex gap-2 font-semibold text-lg">
+
+          {currentUser ? (
+            <div className="flex items-center gap-5 ml-2 lg:ml-0">
+              <button
+                className=" hidden lg:block cursor-pointer text-white hover:text-yellow-500"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+              <button
+                className="cursor-pointer text-white hover:text-yellow-500"
+                onClick={() => setUploadOpen(true)}
+              >
+                <RiUpload2Line size={25} />
+              </button>
+            </div>
+          ) : (
+            <div>
+              <div className="hidden cursor-pointer">
+                <FaUser className="w-6 h-6 text-white" />
+              </div>
+              <div className="hidden">
                 <button
-                  className="cursor-pointer font-medium text-white hover:text-yellow-500 text-lg"
-                  onClick={() => setOpen(true)}
+                  className="mr-3 bg-white hover:bg-blue-500 text-black3 font-semibold hover:text-white py-2 px-4 border border-black3 hover:border-transparent rounded"
+                  onClick={() => router.push("/auth/signin")}
                 >
-                  Upload
-                </button>
-                <button
-                  className="ml-2 cursor-pointer font-medium text-white hover:text-yellow-500 text-"
-                  onClick={handleLogout}
-                >
-                  Logout
+                  Sign In
                 </button>
               </div>
-            ) : (
-              <div>
-                <div className="hidden cursor-pointer">
-                  <FaUser className="w-6 h-6 text-white" />
-                </div>
-                <div className="hidden">
-                  <button
-                    className="mr-3 bg-white hover:bg-blue-500 text-black3 font-semibold hover:text-white py-2 px-4 border border-black3 hover:border-transparent rounded"
-                    onClick={() => router.push("/auth/signin")}
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    className="mr-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
-                    onClick={() => router.push("/auth/signup")}
-                  >
-                    Sign Up
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
+
           <div className="flex md:hidden items-center">
             {!mobileMenuOpen && (
               <HiOutlineMenu

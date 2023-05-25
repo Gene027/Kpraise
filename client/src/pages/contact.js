@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { WhatsappIcon, TwitterIcon, FacebookIcon } from "react-share";
 
 const contact = () => {
   const [formData, setFormData] = useState({});
@@ -30,8 +31,8 @@ const contact = () => {
   };
   return (
     <>
-      <div className="flex justify-center">
-        <div className="flex flex-col items-center max-w-md md:max-w-lg lg:max-w-xl">
+      <div className="flex justify-center px-2">
+        <div className="flex flex-col items-center max-w-md md:max-w-lg lg:max-w-2xl">
           <div className="flex flex-col text-gray-800 mt-10 gap-2">
             <h3 className="uppercase font-black text-center tracking-wide">
               Contact Us
@@ -47,17 +48,29 @@ const contact = () => {
           </div>
 
           <div className="bg-purple-900 flex gap-5 p-5 mt-10 text-slate-200">
-            <div className="w-1/2 flex flex-col gap-3">
+            <div className="w-1/2 flex flex-col gap-5">
               <h3 className="text-center">Working Hours</h3>
               <hr />
               <h2 className="font-bold text-xl">Monday To Friday</h2>
               <h2 className="font-bold text-xl">9:00 AM to 8:00 PM</h2>
               <p>House 5, 41 Road Festac Town, Lagos, Nigeria</p>
             </div>
-            <div className="w-1/2 flex flex-col gap-3">
+            <div className="w-1/2 flex flex-col gap-5">
               <h3 className="text-center">Contact Us</h3>
               <hr />
-              <div className="font-bold text-xl">Social:</div>
+              <div className="font-bold text-xl flex gap-1">
+                Social:
+                <button>
+                  <WhatsappIcon size={25} round />
+                </button>
+                <button>
+                  <FacebookIcon size={25} round />
+                </button>
+                <button>
+                  <TwitterIcon size={25} round />
+                </button>
+              </div>
+
               <h2 className="font-bold text-xl">Tel: +2348045218963</h2>
               <p>Email: kpraisemusic@gmail.com</p>
             </div>
@@ -91,13 +104,15 @@ const contact = () => {
               required
               className="p-5 border border-gray-500 shadow-inner rounded-sm placeholder:text-gray-500"
             ></textarea>
-            <button
-              type="submit"
-              className="mt-3 bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-2xl w-1/3 border-none cursor-pointer
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="mt-3 bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded-2xl w-1/3 border-none cursor-pointer
               "
-            >
-              Send Message
-            </button>
+              >
+                Send Message
+              </button>
+            </div>
           </form>
         </div>
       </div>

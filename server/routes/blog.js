@@ -1,14 +1,14 @@
 import express from "express";
-import { addBlog, getBlog, getFeatured,setFeatured, getBlogs } from "../controllers/blog.js";
+import { addBlog, getBlog, getFeatured, setFeatured, getBlogs, deleteBlog, updateBlog } from "../controllers/blog.js";
 import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
 
 router.post("/", verifyToken, addBlog) //create a blog
 
-router.put("/:id", verifyToken, addBlog) //modify
+router.put("/:id", verifyToken, updateBlog) //modify
 
-router.delete("/:id", verifyToken, addBlog) //delete
+router.delete("/:id", verifyToken, deleteBlog) //delete
 
 router.get("/find/:id", getBlog) //fetch a blog
 

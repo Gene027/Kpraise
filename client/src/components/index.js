@@ -13,6 +13,8 @@ import FeaturedBlog from './FeaturedBlog';
 import ServicesCard from './ServicesCard';
 import ChooseUs from './ChooseUs';
 import Review from './Review';
+import ResultCard from './ResultCard';
+import BackToTopButton from './BackToTopButton';
 
 export {
   Searchbar,
@@ -29,5 +31,7 @@ export {
   FeaturedBlog,
   ServicesCard,
   ChooseUs,
-  Review
+  Review,
+  ResultCard,
+  BackToTopButton
 };

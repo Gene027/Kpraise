@@ -1,4 +1,4 @@
-import { Card, Loader } from "@/components";
+import { ResultCard, Loader } from "@/components";
 import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -22,13 +22,13 @@ const SearchResult = () => {
     }
   }, [router.isReady, router.query.q]);
   if (isSearching) return <Loader />;
-  if (result.length == 0) return <div>No result</div>;
+  if (result.length == 0) return <div className="mt-10 flex justify-center text-2xl font-medium">No result found</div>;
 
   return (
     <>
       <div className="flex mt-5 flex-wrap justify-center gap-3">
         {result?.map((song) => (
-          <Card key={song._id} song={song} />
+          <ResultCard key={song._id} song={song} />
         ))}
       </div>
     </>

@@ -38,7 +38,8 @@ const Card = ({ song, i, isPlaying, activeSong, songs }) => {
           <img alt="song_img" src={song.imgUrl} className="rounded-lg" />
         </div>
       </div>
-      <div className="mt-2 flex flex-col text-center p-2">
+
+      <div className="mt-2 flex flex-col text-center justify-between h-full p-2">
         <p className="font-semibold text-lg leading-5">
           <Link href={`/songs/${song._id}`}>{song.title}</Link>
         </p>

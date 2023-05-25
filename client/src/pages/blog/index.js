@@ -61,7 +61,7 @@ const Blog = () => {
       )}
 
       {/* All blogs */}
-      <div className="mt-5 px-5">
+      <div className="mt-14 px-5">
         <h1 className="mb-5 flex justify-center md:block font-bold text-gray-900 text-xl md:text-3xl">All Posts</h1>
         <hr />
         <div className="pt-3">
@@ -75,7 +75,7 @@ const Blog = () => {
         </div>
       </div>
       <hr className="mt-10"/>
-      <div className="flex justify-center gap-2 mt-10 font-medium">
+      <div className="flex justify-center gap-2 my-10 font-medium">
         <button
           onClick={() => {
             handlePrev;

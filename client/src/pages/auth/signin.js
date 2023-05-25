@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { loginFailure, loginStart, loginSuccess } from "../../redux/userSlice";
+import {  loginSuccess } from "../../redux/userSlice";
+import { toast, Toaster } from "react-hot-toast";
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   useEffect(() => {
     const res = axios
-      .get("http://localhost:8800/api/auth", { withCredentials: true })
+      .get(process.env.API + "/auth", { withCredentials: true })
       .catch((error) => {
         console.log("Continuing as Guest");
       });
@@ -22,25 +23,32 @@ const SignIn = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch(loginStart());
+    setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:8800/api/auth/signin",
+        process.env.API + "/auth/signin",
         { email, password },
         { withCredentials: true }
       ); //withCredentials = true to allow data access control for cookies
       dispatch(loginSuccess(res.data));
+      toast.success('Welcome back')
+      setLoading(false);
       router.push("/");
     } catch (error) {
-      dispatch(loginFailure()); //you can pass in err to this dispatch fn and accept as action in userSlice.js
-      alert(error.response.data.message);
+      setLoading(false);
+      toast.error(error.response.data.message);
     }
   };
 
   return (
     <>
+      <div>
+        <Toaster position="top-center" />
+      </div>
       <div className="flex flex-col">
         <div className="border-b-2 border-b-slate-200 flex justify-center py-5">
           <h1 className="font-medium text-2xl uppercase text-gray-700">
@@ -63,6 +71,7 @@ const SignIn = () => {
                   className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full placeholder:text-gray-500"
                   type="email"
                   placeholder="email"
+                  required
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -72,11 +81,16 @@ const SignIn = () => {
                   className="shadow-inner border border-gray-400 rounded-sm p-2 bg-white w-full placeholder:text-gray-500"
                   type="password"
                   placeholder="password"
+                  required
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="md:flex md:justify-center">
-                <button className="mt-3 bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-yellow-700 rounded-2xl w-1/3">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="mt-3 bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-yellow-700 rounded-2xl w-1/3"
+                >
                   Log in
                 </button>
               </div>

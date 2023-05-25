@@ -1,5 +1,5 @@
+import { initializeApp } from 'firebase/app';
 
-import { initializeApp } from "firebase/app";
 
 //hide apikey in .env
 const firebaseConfig = {

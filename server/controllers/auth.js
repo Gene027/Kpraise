@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";  //crate to encrpyt new password
 import { createError } from '../error.js';
 import jwt from "jsonwebtoken";
 
-export const signup = async (req, res,next) => {
+export const signup = async (req, res, next) => {
     try {
         //hash the password
         const salt = bcrypt.genSaltSync(10);
@@ -29,14 +29,14 @@ export const signin = async (req, res, next) => {
 
         if (!isCorrect) return next(createError(400, "Wrong Password!"));
 
-        const newToken = jwt.sign({ id: user._id }, process.env.JWT, {expiresIn: "2h"});  //token for a signed in user    encryption will be made based on the payload and .env.JWT and dencrypt (jwt.verify()) will return {id: user._id}
+        const newToken = jwt.sign({ id: user._id }, process.env.JWT, { expiresIn: "2h" });  //token for a signed in user    encryption will be made based on the payload and .env.JWT and dencrypt (jwt.verify()) will return {id: user._id}
         try {
             await User.findByIdAndUpdate(user._id, { token: newToken });
         } catch (err) {
             next(err);
         }
 
-        const { password,token, ...others } = user._doc; //destructure user data and reassign password to a separate variable to avoid sending password as part of response
+        const { password, token, ...others } = user._doc; //destructure user data and reassign password to a separate variable to avoid sending password as part of response
 
         res
             .cookie("access_token", newToken, {
@@ -52,7 +52,6 @@ export const signin = async (req, res, next) => {
 
 export const signout = async (req, res, next) => {
     try {
-        const user = await User.findByIdAndUpdate(req.user.id, { token: "" });
         res
             .cookie("access_token", "", {
                 maxAge: 0,
@@ -67,7 +66,7 @@ export const signout = async (req, res, next) => {
 export const verifyUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.user.id);
-        const { password,token, ...others } = user._doc; //destructure user data and reassign password to a separate variable to avoid sending password as part of response
+        const { password, token, ...others } = user._doc; //destructure user data and reassign password to a separate variable to avoid sending password as part of response
         res.status(200).json(others);
     } catch (err) {
         next(err);

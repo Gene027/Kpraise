@@ -17,8 +17,6 @@ import {
   TwitterIcon,
   WhatsappShareButton,
   WhatsappIcon,
-  EmailShareButton,
-  EmailIcon,
 } from "react-share";
 import { FaDownload, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import PlayPause from "@/components/PlayPause";
@@ -57,11 +55,12 @@ const SongDetails = () => {
     const url = data?.audioUrl;
     const aTag = document.createElement("a");
     aTag.href = url;
-    aTag.setAttribute("download", data?.title + ".mp4");
-    document.body.appendChild(aTag);
+    aTag.download = `${data?.title}.mp3`
+    aTag.target = '_blank';
+    aTag.rel = 'noopener noreferrer';
     aTag.click();
-    aTag.parentNode.removeChild(aTag);
   };
+  
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
@@ -71,7 +70,6 @@ const SongDetails = () => {
     dispatch(playPause(true));
   };
 
-  const { currentUser } = useSelector((state) => state.user);
   const { currentSong } = useSelector((state) => state.song);
 
   return (
@@ -131,7 +129,7 @@ const SongDetails = () => {
                     <FaThumbsDown/>
                   </button>
                 </div>
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center font-medium">
                   Share:
                   <FacebookShareButton
                     url={"https://www.vitagreennigeria.com"}
@@ -154,12 +152,6 @@ const SongDetails = () => {
                   >
                     <TwitterIcon size={30} round />
                   </TwitterShareButton>
-                  <EmailShareButton
-                    url={"https://www.vitagreennigeria.com"}
-                    quote={"Check out this site!"}
-                  >
-                    <EmailIcon size={30} round />
-                  </EmailShareButton>
                 </div>
                 <div>
                   <button
@@ -175,7 +167,7 @@ const SongDetails = () => {
           </div>
 
         {/* Related Songs */}
-        <div className="flex-1 lg:flex-1 w-full max-w-2xl px-3 pt-5 overflow-y-scroll">
+        <div className="flex-1 lg:flex-1 w-full max-w-md lg:max-w-2xl px-3 pt-5 lg:overflow-y-scroll">
             {isFetchingArtistSongs && <Loader />}
             {artistSongFetchError && (
               <Error message={"Oops... Error loading artist songs"} />

@@ -11,7 +11,7 @@ router.post("/signup", signup)
 router.post("/signin", signin)
 
 //SIGN OUT
-router.get("/signout",verifyToken, signout)
+router.get("/signout", signout)
 
 //GOOGLE AUTH
 router.post("/google",)
