@@ -103,7 +103,7 @@ const about = () => {
             className="aspect-square max-w-sm md:max-w-lg"
           />
           <h3>CEO and Founder</h3>
-          <h1 className="text-2xl font-medium">Name Surname</h1>
+          <h1 className="text-2xl font-medium">K-Praise Kaydor</h1>
         </div>
       </div>
     </>

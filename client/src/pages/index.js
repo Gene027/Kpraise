@@ -8,6 +8,7 @@ import {
   useGetTrendingSongsQuery,
 } from "@/redux/services/api";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Home = () => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const Home = () => {
             </h4>
             <h2
               className="font-vibes font-bold md:text-[56px] text-[32px] md:leading-[64px] md:tracking-[-2px]">
-              Best step to Bring your Ideas into <span className="text-yellow-500">Hit Tracks</span> 
+              Best step to Bring your Ideas into <span className="text-yellow-500">Hit Tracks</span>
             </h2>
             <button className="w-[150px] bg-yellow-600 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded"
               onClick={() => router.push("/contact")}>
@@ -47,7 +48,7 @@ const Home = () => {
         </div>
 
         <div className="hidden lg:flex mr-20 items-center bg-black/80">
-          <img src="/studio-hero.jpg" alt="Studio hero" className="max-w-xs aspect-square rounded-lg" />
+          <Image src="/studio-hero.jpg" alt="Studio hero" width={500} height={300} className="max-w-xs aspect-square rounded-lg" />
         </div>
       </div>
 

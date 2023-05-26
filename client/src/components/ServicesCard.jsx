@@ -1,14 +1,17 @@
 import { useRouter } from "next/router";
 import React from "react";
+import Image from "next/image";
 
 const servicesCard = ({ service }) => {
   const router = useRouter();
   return (
     <div className="w-full md:w-[45%] flex flex-col shadow-lg bg-white p-2">
-      <img
+      <Image
         src={service.image}
+        width={500}
+        height={300}
         alt="service image"
-        className="bg-slate-200 max-h-[340px] aspect-square"
+        className="bg-slate-200 w-full max-h-[340px] aspect-square"
       />
 
       <div className="px-2 pb-3">
