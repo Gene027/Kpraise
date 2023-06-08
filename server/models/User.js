@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema({  //new database structure for users in 
     token: { //for verifying each login session
         type: String,
     },
+    fromGoogle: {
+        type: Boolean,
+        default: false,
+      },
 }, {timestamps:true})
 
 export default mongoose.model("User", UserSchema)

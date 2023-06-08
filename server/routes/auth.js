@@ -1,5 +1,5 @@
 import express from 'express';
-import { signin, signup, verifyUser, signout } from '../controllers/auth.js';
+import { googleAuth, signin, signup, verifyUser, signout } from '../controllers/auth.js';
 import { verifyToken } from "../verifyToken.js";
 
 const router = express.Router();
@@ -14,7 +14,7 @@ router.post("/signin", signin)
 router.get("/signout", signout)
 
 //GOOGLE AUTH
-router.post("/google",)
+router.post("/google", googleAuth)
 
 //VERIFY SESSION
 router.get("/", verifyToken, verifyUser)
