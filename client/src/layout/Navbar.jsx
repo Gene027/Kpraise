@@ -6,15 +6,14 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Link from "next/link";
 import { FaUser } from "react-icons/fa";
-import { HiOutlineMenu } from "react-icons/hi";
-import { RiCloseLine, RiUpload2Line } from "react-icons/ri";
+import { MobileMenu } from "@/components";
+import { RiUpload2Line } from "react-icons/ri";
 import { Toaster, toast } from "react-hot-toast";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [uploadOpen, setUploadOpen] = useState(false); //for upload button trigger
-  const [mobileMenuOpen, setmobileMenuOpen] = useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
 
   useEffect(() => {
@@ -67,75 +66,7 @@ const Navbar = () => {
 
         <Searchbar />
 
-        {/* Mobile Devices navlinks */}
         <div className="mr-5 flex gap-5">
-          {mobileMenuOpen && (
-            <div className="absolute top-0 right-0 w-full h-[100vh] flex z-40">
-              <div className="bg-slate-100/95 w-[70%] flex flex-col text-gray-700 uppercase text-sm font-medium pt-12 gap-1">
-                <div
-                  className={`hover:text-gray-900 cursor-pointer p-3 border-solid border-b border-gray-300 ${
-                    router.pathname == "/services" && "bg-black/5"
-                  }`}
-                  onClick={() => {
-                    setmobileMenuOpen(false);
-                    router.push("/services");
-                  }}
-                >
-                  Services
-                </div>
-                <div
-                  className={`hover:text-gray-900 cursor-pointer p-3 border-solid border-b border-gray-300 ${
-                    router.pathname == "/about" && "bg-black/5"
-                  }`}
-                  onClick={() => {
-                    setmobileMenuOpen(false);
-                    router.push("/about");
-                  }}
-                >
-                  About
-                </div>
-                <div
-                  className={`hover:text-gray-900 cursor-pointer p-3 border-solid border-b border-gray-300 ${
-                    router.pathname == "/contact" && "bg-black/5"
-                  }`}
-                  onClick={() => {
-                    setmobileMenuOpen(false);
-                    router.push("/contact");
-                  }}
-                >
-                  Contact
-                </div>
-                <div
-                  className={`hover:text-gray-900 cursor-pointer p-3 border-solid border-b border-gray-300 ${
-                    router.pathname == "/blog" && "bg-black/5"
-                  }`}
-                  onClick={() => {
-                    setmobileMenuOpen(false);
-                    router.push("/blog");
-                  }}
-                >
-                  Blog
-                </div>
-                {currentUser && (
-                  <div
-                    className="hover:text-gray-900 cursor-pointer p-3 border-solid border-b border-gray-300"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </div>
-                )}
-              </div>
-              <div
-                className="bg-black/50 relative p-5 flex-1"
-                onClick={() => setmobileMenuOpen(false)}
-              >
-                <RiCloseLine
-                  className="w-8 h-8 text-slate-200 absolute top-2 right-2"
-                  onClick={() => setmobileMenuOpen(false)}
-                />
-              </div>
-            </div>
-          )}
 
           {/* Desktop navlinks */}
           <div className="hidden md:flex items-center gap-5 text-white ml-5">
@@ -204,13 +135,9 @@ const Navbar = () => {
             </div>
           )}
 
+          {/* Mobile Devices navlinks */}
           <div className="flex md:hidden items-center">
-            {!mobileMenuOpen && (
-              <HiOutlineMenu
-                className="w-6 h-6 text-white"
-                onClick={() => setmobileMenuOpen(true)}
-              />
-            )}
+            <MobileMenu handleLogout={handleLogout} currentUser={currentUser}/>
           </div>
         </div>
       </div>

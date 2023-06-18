@@ -15,6 +15,7 @@ import ChooseUs from './ChooseUs';
 import Review from './Review';
 import ResultCard from './ResultCard';
 import BackToTopButton from './BackToTopButton';
+import MobileMenu from './MobileMenu';
 
 export {
   Searchbar,
@@ -33,5 +34,6 @@ export {
   ChooseUs,
   Review,
   ResultCard,
-  BackToTopButton
+  BackToTopButton,
+  MobileMenu
 };
