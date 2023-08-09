@@ -24,7 +24,6 @@ const Home = () => {
     isFetching: isFetchingTrending,
     error: errorTrending,
   } = useGetTrendingSongsQuery();
-  console.log(process.env.API)
 
   return (
     <>
